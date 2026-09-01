@@ -12,13 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lấy dữ liệu kho lưu trữ
-        uses: actions/checkout@v5 # Nâng cấp lên v5 để tương thích Node.js 24
+        uses: actions/checkout@v4
 
       - name: Đổi ngày trong file README
         run: |
           TZ='Asia/Ho_Chi_Minh'
           TODAY=$(TZ=$TZ date +'%d/%m/%Y')
-          sed -i "s/\*Cập nhật tự động:.*/\*Cập nhật tự động: $TODAY\*/" README.md
+          # Đã thay đổi dấu phân cách từ / sang | để không bị xung đột với ngày tháng
+          sed -i "s|\*Cập nhật tự động:.*|\*Cập nhật tự động: $TODAY\*|" README.md
           
       - name: Lưu và Cập nhật lên GitHub
         run: |
@@ -26,6 +27,5 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
           
-          # Sử dụng --allow-empty để ép bot báo Success dù nội dung text có bị trùng khớp
           git commit --allow-empty -m "Cập nhật ngày tự động: $TODAY"
           git push
