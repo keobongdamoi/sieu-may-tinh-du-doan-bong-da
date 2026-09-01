@@ -1,26 +1,23 @@
 name: Auto Update Date
 on:
   schedule:
-    - cron: '0 23 * * *' # Chạy ngầm tự động vào 6:00 sáng mỗi ngày
-  workflow_dispatch: # Tạo nút bấm để bạn có thể chạy thử thủ công
+    - cron: '0 23 * * *' 
+  workflow_dispatch: 
 
 permissions:
-  contents: write # Cấp quyền cho hệ thống được phép sửa file README
+  contents: write 
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
       - name: Lấy dữ liệu kho lưu trữ
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Đã nâng cấp lên v4 để triệt tiêu cảnh báo vàng
 
       - name: Đổi ngày trong file README
         run: |
-          # Thiết lập múi giờ Việt Nam để lấy ngày chính xác
           TZ='Asia/Ho_Chi_Minh'
           TODAY=$(TZ=$TZ date +'%d/%m/%Y')
-          
-          # Tìm và thay thế dòng chữ "Cập nhật tự động" bằng ngày mới
           sed -i "s/\*Cập nhật tự động:.*/\*Cập nhật tự động: $TODAY\*/" README.md
           
       - name: Lưu và Cập nhật lên GitHub
@@ -28,5 +25,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
-          git commit -m "Cập nhật ngày tự động: $TODAY" || exit 0
-          git push
+          
+          # Cấu trúc điều kiện IF kiểm tra sự thay đổi trước khi lưu
+          if git diff --staged --quiet; then
+            echo "Dữ liệu ngày tháng không thay đổi, bỏ qua lệnh commit."
+          else
+            git commit -m "Cập nhật ngày tự động: $TODAY"
+            git push
+          fi
