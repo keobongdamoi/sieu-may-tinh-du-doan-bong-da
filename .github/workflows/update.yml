@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lấy dữ liệu kho lưu trữ
-        uses: actions/checkout@v4 # Đã nâng cấp lên v4 để triệt tiêu cảnh báo vàng
+        uses: actions/checkout@v5 # Nâng cấp lên v5 để tương thích Node.js 24
 
       - name: Đổi ngày trong file README
         run: |
@@ -26,10 +26,6 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
           
-          # Cấu trúc điều kiện IF kiểm tra sự thay đổi trước khi lưu
-          if git diff --staged --quiet; then
-            echo "Dữ liệu ngày tháng không thay đổi, bỏ qua lệnh commit."
-          else
-            git commit -m "Cập nhật ngày tự động: $TODAY"
-            git push
-          fi
+          # Sử dụng --allow-empty để ép bot báo Success dù nội dung text có bị trùng khớp
+          git commit --allow-empty -m "Cập nhật ngày tự động: $TODAY"
+          git push
