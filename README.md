@@ -8,7 +8,7 @@
 
 ## 2. Nguyên lý hoạt động của siêu máy tính dự đoán bóng đá
 
-Để đưa ra một dự đoán có độ chuẩn xác cao (thường từ 60% - 75%), siêu máy tính hoạt động theo quy trình 3 bước cốt lõi:
+Để đưa ra dự đoán bóng đá hôm nay có độ chuẩn xác cao (thường từ 60% - 75%), siêu máy tính hoạt động theo quy trình 3 bước cốt lõi:
 
 *   **Bước 1: Thu thập dữ liệu (Data Crawling):** Hệ thống tổng hợp hàng triệu điểm dữ liệu từ các trận đấu trong quá khứ, bao gồm: phong độ đội bóng, lịch sử đối đầu, chỉ số xG (bàn thắng kỳ vọng), danh sách chấn thương, chiến thuật của HLV, và thậm chí cả yếu tố thời tiết, trọng tài.
 *   **Bước 2: Mô phỏng trận đấu (Simulation):** Sử dụng các mô hình toán học như **Monte Carlo**, siêu máy tính sẽ chạy mô phỏng trận đấu sắp diễn ra khoảng 10.000 đến 100.000 lần trong môi trường ảo.
